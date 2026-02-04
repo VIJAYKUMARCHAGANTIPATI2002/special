@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Vaishnavi ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* --- CSS STYLES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background-color: #ffe6e6; /* Fallback */
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Prevents scrollbars from floating hearts */
+            position: relative;
+        }
+
+        /* Floating Hearts Background Animation */
+        .bg-heart {
+            position: absolute;
+            top: -10%;
+            color: rgba(255, 107, 129, 0.2);
+            animation: floatUp 10s linear infinite;
+            z-index: -1;
+            font-size: 2rem;
+            pointer-events: none; /* Allows clicking through hearts */
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Main Container - Mobile Optimized */
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            text-align: center;
+            
+            /* Responsive Width Logic */
+            width: 85%; 
+            max-width: 400px;
+            
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        /* Responsive Text Sizes */
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #ff4757;
+            font-size: 2.2rem; /* Slightly smaller for mobile safety */
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            color: #2f3542;
+            margin-bottom: 25px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            outline: none;
+            -webkit-tap-highlight-color: transparent; /* Removes blue highlight on mobile tap */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-yes {
+            background-color: #ff4757;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+        }
+        .btn-yes:active { transform: scale(0.95); }
+
+        .btn-no {
+            background-color: #fff;
+            color: #ff4757;
+            border: 2px solid #ff4757;
+        }
+        /* Mobile hover fix: only apply hover style on devices that support hover */
+        @media (hover: hover) {
+            .btn-no:hover { background-color: #ffe0e3; }
+        }
+        .btn-no:active { background-color: #ffe0e3; transform: scale(0.95); }
+
+        .hidden { display: none !important; }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            max-width: 80%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 14px 20px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            line-height: 1.4;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+
+        .final-msg {
+            font-size: 1.4rem;
+            color: #ff4757;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .sub-final {
+            font-size: 0.95rem;
+            color: #57606f;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ff4757;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Small Screen Adjustments */
+        @media (max-width: 360px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding: 1.5rem; width: 90%; }
+            button { padding: 10px 20px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-hearts"></div>
+    <canvas id="confetti"></canvas>
+
+    <div class="container" id="card">
+        
+        <div id="intro">
+            <h1>Hey Vaishnavi! ❤️</h1>
+            <h2>I (Vijay) have a few serious questions for you...<br>Are you ready?</h2>
+            <div class="btn-group">
+                <button class="btn-yes" onclick="startQuiz()">Yes, I'm ready!</button>
+            </div>
+        </div>
+
+        <div id="quiz" class="hidden">
+            <h1 id="question-title">Question 1</h1>
+            <h2 id="question-text">Loading...</h2>
+            <div class="btn-group">
+                <button class="btn-yes" onclick="handleAnswer('yes')">Yes</button>
+                <button class="btn-no" onclick="handleAnswer('no')">No</button>
+            </div>
+        </div>
+
+        <div id="result" class="hidden">
+            <h1>We made it! 🎉</h1>
+            <div class="final-msg">"You love me & even me!"</div>
+            <p>No matter what buttons you clicked, the truth is unavoidable.</p>
+            <div class="sub-final">
+                <strong>And here is my promise:</strong><br>
+                We will have a daily Valentine's Day.<br>Not just on Feb 14th, but every single day. ❤️
+            </div>
+            <br>
+            <p id="db-status" style="font-size: 0.8rem; color: #aaa;">Saving our memory... <span class="spinner"></span></p>
+        </div>
+
+    </div>
+
+    <div id="toast">Nice line goes here...</div>
+
+    <script>
+        // ==========================================
+        //  ✅ CONFIGURATION (Auto-Filled)
+        // ==========================================
+        // I have inserted the keys from your screenshot:
+        const SUPABASE_URL = 'https://eqtpkibqywcflqxchtzc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxdHBraWJxeXdjZmxxeGNodHpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDYxNDYsImV4cCI6MjA4NTcyMjE0Nn0.dxf7U6f09iEE8HOcmsTTus_DkjRpLGJy_feIMIDP9Ls';
+        // ==========================================
+
+        // 🔴 FIX: Using 'supabaseClient' prevents the crash you saw in the console
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        const herName = "Vaishnavi";
+        const myName = "Vijay";
+        let answerLog = []; 
+
+        const questions = [
+            {
+                text: "Do you admit that Vijay is slightly funnier than you?",
+                yesResp: "I knew you had good taste! 😉",
+                noResp: "Liar! But I love your confidence. 😘"
+            },
+            {
+                text: "Will you share your food with me forever? (Even the last bite?)",
+                yesResp: "Good girl! That's true love. 🍕",
+                noResp: "Too bad! I'm stealing it anyway. 🍟"
+            },
+            {
+                text: "Am I the most annoying person you simply cannot live without?",
+                yesResp: "Mission accomplished! 😈",
+                noResp: "You clicked No, but your heart said Yes. ❤️"
+            },
+            {
+                text: "If we get lost, will you admit I was right about directions?",
+                yesResp: "Finally! Recording this for proof. 🗺️",
+                noResp: "Cute, but we both know the truth. 😂"
+            },
+            {
+                text: "Are you ready to be stuck with me for a very, very long time?",
+                yesResp: "Best decision of your life! 💍",
+                noResp: "There is no escape! You're mine! 🔒"
+            }
+        ];
+
+        let currentQIndex = 0;
+
+        // Background Hearts
+        function createHearts() {
+            const container = document.getElementById('bg-hearts');
+            const heartCount = 15;
+            for(let i=0; i<heartCount; i++) {
+                const div = document.createElement('div');
+                div.classList.add('bg-heart');
+                div.innerHTML = '❤️';
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                div.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                container.appendChild(div);
+            }
+        }
+
+        function startQuiz() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQIndex];
+            document.getElementById('question-title').innerText = `Question ${currentQIndex + 1}`;
+            document.getElementById('question-text').innerText = q.text;
+        }
+
+        function handleAnswer(type) {
+            const q = questions[currentQIndex];
+            let msg = type === 'yes' ? q.yesResp : q.noResp;
+            
+            // Log the answer
+            answerLog.push(`Q${currentQIndex + 1}: ${type.toUpperCase()}`);
+
+            showToast(msg);
+            setTimeout(() => { nextQuestion(); }, 1500);
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            if (currentQIndex < questions.length) {
+                const card = document.getElementById('card');
+                // Smooth fade transition
+                card.style.transform = "scale(0.95)";
+                card.style.opacity = '0';
+                
+                setTimeout(() => {
+                    loadQuestion();
+                    card.style.transform = "scale(1)";
+                    card.style.opacity = '1';
+                }, 300);
+            } else {
+                finishQuiz();
+            }
+        }
+
+        async function finishQuiz() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            startConfetti();
+            
+            // SEND TO DB
+            const finalLogString = answerLog.join(" | ");
+            const statusEl = document.getElementById('db-status');
+
+            try {
+                // Using the corrected variable name here
+                const { data, error } = await supabaseClient
+                    .from('valentine_responses')
+                    .insert([
+                        { respondent_name: herName, answers_log: finalLogString },
+                    ]);
+
+                if (error) throw error;
+                statusEl.innerHTML = "Saved to the cloud forever! ☁️❤️";
+                statusEl.style.color = "#2ed573"; // Success green
+            } catch (err) {
+                console.error("DB Error:", err);
+                statusEl.innerHTML = "Saved in my heart (Offline Mode) ❤️";
+            }
+        }
+
+        function showToast(message) {
+            const x = document.getElementById("toast");
+            x.innerText = message;
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+        // Optimized Confetti
+        function startConfetti() {
+            const canvas = document.getElementById("confetti");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const pieces = [];
+            const numberOfPieces = 80; // Reduced slightly for mobile performance
+            const colors = ['#ff4757', '#2ed573', '#1e90ff', '#ffa502'];
+            
+            for (let i = 0; i < numberOfPieces; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    rotation: Math.random() * 360,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 8 + 4,
+                    speed: Math.random() * 4 + 2
+                });
+            }
+            
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                    p.y += p.speed;
+                    p.rotation += 2;
+                    if (p.y > canvas.height) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // Initialize
+        createHearts();
+    </script>
+</body>
+</html>
