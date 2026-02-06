@@ -224,11 +224,11 @@
 
         <div id="result" class="hidden">
             <h1>We made it! 🎉</h1>
-            <div class="final-msg">"You love me & even me!"</div>
+            <div class="final-msg">"You love me & I adore you!"</div>
             <p>No matter what buttons you clicked, the truth is unavoidable.</p>
             <div class="sub-final">
                 <strong>And here is my promise:</strong><br>
-                We will have a daily Valentine's Day.<br>Not just on Feb 14th, but every single day. ❤️
+                To be your biggest fan, your safe space, and your Valentine.<br>Every. Single. Day. ❤️
             </div>
             <br>
             <p id="db-status" style="font-size: 0.8rem; color: #aaa;">Saving our memory... <span class="spinner"></span></p>
@@ -242,43 +242,42 @@
         // ==========================================
         //  ✅ CONFIGURATION (Auto-Filled)
         // ==========================================
-        // I have inserted the keys from your screenshot:
         const SUPABASE_URL = 'https://eqtpkibqywcflqxchtzc.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxdHBraWJxeXdjZmxxeGNodHpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDYxNDYsImV4cCI6MjA4NTcyMjE0Nn0.dxf7U6f09iEE8HOcmsTTus_DkjRpLGJy_feIMIDP9Ls';
         // ==========================================
 
-        // 🔴 FIX: Using 'supabaseClient' prevents the crash you saw in the console
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         const herName = "Vaishnavi";
         const myName = "Vijay";
         let answerLog = []; 
 
+        // ✅ UPDATED QUESTIONS: Nicer, Romantic & Cool
         const questions = [
             {
-                text: "Do you admit that Vijay is slightly funnier than you?",
-                yesResp: "I knew you had good taste! 😉",
-                noResp: "Liar! But I love your confidence. 😘"
+                text: "Do you have any idea how much your smile brightens up my entire day?",
+                yesResp: "It's my favorite view in the world. ✨",
+                noResp: "Well, let me tell you: It’s everything to me. ❤️"
             },
             {
-                text: "Will you share your food with me forever? (Even the last bite?)",
-                yesResp: "Good girl! That's true love. 🍕",
-                noResp: "Too bad! I'm stealing it anyway. 🍟"
+                text: "If we were in a movie, would we be the couple everyone is jealous of?",
+                yesResp: "Obviously! We are the main characters. 🎬",
+                noResp: "You're right, we're better than a movie. We're real. 🌟"
             },
             {
-                text: "Am I the most annoying person you simply cannot live without?",
-                yesResp: "Mission accomplished! 😈",
-                noResp: "You clicked No, but your heart said Yes. ❤️"
+                text: "Even on your bad days, do you promise to let me be the one to cheer you up?",
+                yesResp: "I’ll always be your safe space. 🤗",
+                noResp: "I’m going to hug you until you smile anyway. 🧸"
             },
             {
-                text: "If we get lost, will you admit I was right about directions?",
-                yesResp: "Finally! Recording this for proof. 🗺️",
-                noResp: "Cute, but we both know the truth. 😂"
+                text: "Are you ready to be my permanent travel buddy, food taster, and best friend?",
+                yesResp: "Pack your bags, we’re going on an adventure! 🌍",
+                noResp: "I’m not taking 'No' for an answer. You're stuck with me! ✈️"
             },
             {
-                text: "Are you ready to be stuck with me for a very, very long time?",
-                yesResp: "Best decision of your life! 💍",
-                noResp: "There is no escape! You're mine! 🔒"
+                text: "Basically... will you be my Valentine today, tomorrow, and forever?",
+                yesResp: "You just made me the happiest guy alive. 🌹",
+                noResp: "Clicking 'No' just means 'Yes' but you're playing hard to get. 😉"
             }
         ];
 
@@ -350,7 +349,6 @@
             const statusEl = document.getElementById('db-status');
 
             try {
-                // Using the corrected variable name here
                 const { data, error } = await supabaseClient
                     .from('valentine_responses')
                     .insert([
@@ -380,7 +378,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             const pieces = [];
-            const numberOfPieces = 80; // Reduced slightly for mobile performance
+            const numberOfPieces = 80; 
             const colors = ['#ff4757', '#2ed573', '#1e90ff', '#ffa502'];
             
             for (let i = 0; i < numberOfPieces; i++) {
